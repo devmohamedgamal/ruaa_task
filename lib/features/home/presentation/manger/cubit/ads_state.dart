@@ -5,15 +5,35 @@ sealed class AdsState {}
 
 final class AdsInitial extends AdsState {}
 
-final class AdsLoading extends AdsState {}
+final class GetAdsLoading extends AdsState {}
 
-final class AdsFailure extends AdsState {
+final class GetAdsFailure extends AdsState {
   final String errMessage;
 
-  AdsFailure({required this.errMessage});
+  GetAdsFailure({required this.errMessage});
 }
 
-final class AdsSuccess extends AdsState {
+final class GetAdsSuccess extends AdsState {
   final List<AdsModel> adsList;
-  AdsSuccess({required this.adsList});
+  GetAdsSuccess({required this.adsList});
 }
+
+final class GetMoreAdsLoading extends AdsState {}
+
+
+final class AddAdsLoading extends AdsState {}
+
+final class AddAdsFailure extends AdsState {
+  final String errMessage;
+
+  AddAdsFailure({required this.errMessage});
+}
+
+final class AddAdsSuccess extends AdsState {
+  final bool isSuccess;
+
+  AddAdsSuccess({required this.isSuccess});
+}
+
+
+

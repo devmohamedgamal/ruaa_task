@@ -18,11 +18,14 @@ class AdsItemListView extends StatelessWidget {
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            item?.firstImage ?? AppConstants.networkNotFoundImage,
-            errorBuilder: (context, object, stack) {
-              return Image.asset(AppConstants.assetsNotFoundImage);
-            },
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.network(
+              item?.firstImage ?? AppConstants.networkNotFoundImage,
+              errorBuilder: (context, object, stack) {
+                return Image.asset(AppConstants.assetsNotFoundImage);
+              },
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -33,7 +36,7 @@ class AdsItemListView extends StatelessWidget {
               children: [
                 Text(item?.name ?? 'Name'),
                 const Spacer(),
-                Text(item?.price ?? r'$00'),
+                Text("\$${item?.price ?? r'$00'}"),
               ],
             ),
           ),

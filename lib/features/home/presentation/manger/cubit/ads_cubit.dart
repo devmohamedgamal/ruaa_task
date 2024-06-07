@@ -13,15 +13,19 @@ class AdsCubit extends Cubit<AdsState> {
   AdsCubit(this.homeRepoImpl) : super(AdsInitial());
   final HomeRepoImpl homeRepoImpl;
 
-  Future<void> getAds() async {
-    emit(AdsLoading());
+  Future<void> getAds({int page = 1, bool fromLoading = false}) async {
+    if (fromLoading) {
+      emit(GetMoreAdsLoading());
+    } else {
+      emit(GetAdsLoading());
+    }
     var result = await homeRepoImpl.getAllAds();
     result.fold(
       (failure) {
-        emit(AdsFailure(errMessage: failure.errMessage));
+        emit(GetAdsFailure(errMessage: failure.errMessage));
       },
       (success) {
-        emit(AdsSuccess(adsList: success));
+        emit(GetAdsSuccess(adsList: success));
       },
     );
   }

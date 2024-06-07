@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-         BlocProvider(
+        BlocProvider(
           create: (context) => AdsCubit(
             getIt.get<HomeRepoImpl>(),
           )..getAds(),
