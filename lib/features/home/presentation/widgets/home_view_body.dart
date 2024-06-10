@@ -13,8 +13,9 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AdsCubit>().getAds();
     return BlocBuilder<AdsCubit, AdsState>(
-      buildWhen: (context,current) => current is! GetMoreAdsLoading,
+      buildWhen: (context, current) => current is! GetMoreAdsLoading,
       builder: (context, state) {
         if (state is GetAdsLoading) {
           return const CustomLoadingIndecator();

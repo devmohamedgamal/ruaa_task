@@ -29,4 +29,17 @@ class AdsCubit extends Cubit<AdsState> {
       },
     );
   }
+
+  Future<void> addAds({required AdsModel item}) async {
+    emit(AddAdsLoading());
+    var result = await homeRepoImpl.addAd(item: item);
+    result.fold(
+      (failure) {
+        emit(AddAdsFailure(errMessage: failure.errMessage));
+      },
+      (success) {
+        emit(AddAdsSuccess(isSuccess: success));
+      },
+    );
+  }
 }

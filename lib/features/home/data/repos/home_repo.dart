@@ -9,7 +9,7 @@ import '../../../../core/errors/failure.dart';
 
 abstract class HomeRepo {
   Future<Either<Failure, List<AdsModel>>> getAllAds();
-  Future<Either<Failure, bool>> addAllAds({
+  Future<Either<Failure, bool>> addAd({
     required AdsModel item,
   });
 }

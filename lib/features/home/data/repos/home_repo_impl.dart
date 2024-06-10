@@ -1,5 +1,6 @@
 // Packages
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 // constants
@@ -48,36 +49,36 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, bool>> addAllAds({required AdsModel item}) async {
-    var headers = {
-      'Content-Type': 'multipart/form-data',
-      "Accept ": " application/json"
-    };
-    var data = json.encode({
-      "name": item.name,
-      "desc": item.desc,
-      "price": item.price,
-      "created_at": DateTime.now().toString(),
-      'first_image': item.firstImage,
-      'images': item.images,
-    });
-    var dio = Dio();
+  Future<Either<Failure, bool>> addAd({required AdsModel item}) async {
     try {
-      var response = await dio.request(
-        AppConstants.adsEndpoint,
-        options: Options(
-          method: 'POST',
-          headers: headers,
+      var data = FormData.fromMap({
+        'first_image': await MultipartFile.fromFile(
+          item.firstImage!,
+          filename: item.firstImage,
         ),
+        'images[]': [
+          await MultipartFile.fromFile(
+            item.firstImage!,
+            filename: item.firstImage,
+          ),
+        ],
+        'name': item.name,
+        'desc': item.desc,
+        'price': item.price,
+      });
+      var response = await apiService.post(
         data: data,
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return right(response.data);
+      if (response['status'] == true) {
+        log('Add Ad Success \n $response');
+        return right(true);
       } else {
-        return left(ServerFailure(response.statusMessage.toString()));
+        log('Else Error \n $data status code = $response');
+        return left(ServerFailure('errMessage'));
       }
     } on DioException catch (e) {
+      log(e.message!);
       return left(ServerFailure(e.message.toString()));
     } catch (e) {
       return left(ServerFailure(e.toString()));

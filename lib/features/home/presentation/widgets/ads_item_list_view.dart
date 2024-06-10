@@ -21,7 +21,8 @@ class AdsItemListView extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.network(
-              item?.firstImage ?? AppConstants.networkNotFoundImage,
+              height: 260,
+              item?.images!.first.image ?? AppConstants.networkNotFoundImage,
               errorBuilder: (context, object, stack) {
                 return Image.asset(AppConstants.assetsNotFoundImage);
               },
